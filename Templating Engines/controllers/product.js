@@ -1,7 +1,7 @@
 const Product = require('../models/product');
 
 exports.getAddProduct = (req, res, next) => {
-    res.render('add-product', {
+    res.render('admin/add-product', {
         pageTitle:"Add Product", 
         path: "/admin/add-product",
         formsCSS: true,
@@ -20,16 +20,18 @@ exports.postAddProduct = (req, res, next) => {
 
 exports.getAllProducts = (req, res, next) => {
     const title = "Shop"
-    const products = Product.fetchAll();
-    // res.sendFile(path.join(__dirname, '..','views','shop.pug'));
-    res.render('shop',{
-        prods:products,
-        pageTitle: title,
-        path: "/",
-        hasProducts: products.length > 0,
-        productCSS: true,
-        formsCSS: true,
-        activeShop: true,
-        activeAddProduct: false
+    Product.fetchAll((products)=> {
+        res.render('shop/product-list',{
+            prods:products,
+            pageTitle: title,
+            path: "/",
+            hasProducts: products.length > 0,
+            productCSS: true,
+            formsCSS: true,
+            activeShop: true,
+            activeAddProduct: false
+        });
     });
+    // res.sendFile(path.join(__dirname, '..','views','shop.pug'));
+    
 }
